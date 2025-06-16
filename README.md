@@ -1,2 +1,0 @@
-# MovieTracker
-Personal movie catalog
