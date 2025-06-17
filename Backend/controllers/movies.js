@@ -35,7 +35,7 @@ const updateMovie = async (req, res) => {
       throw new BadRequestError('Please set rating when marking as watched')
     }
     const movie = await Movie.findOneAndUpdate(
-      { _id: req.params.id, createdBy: req.user._id },
+      { _id: req.params.id /* createdBy: req.user._id */ },
       req.body,
       { new: true, runValidators: true }
     );
