@@ -3,17 +3,14 @@ const router = express.Router();
 
 const {
   getMovies,
-  getNewMovie,
-  addMovie,
-  editMovie,
+  getMovie,
+createMovie,
   updateMovie,
   deleteMovie,
+  getMovieMetadata
 } = require("../controllers/movies");
 
-router.route("/movies").get(getMovies).post(addMovie);
-router.route("/movies/new").get(getNewMovie);
-router.route("/movies/edit/:id").get(editMovie);
-router.route("/movies/update/:id").post(updateMovie);
-router.route("/movies/delete/:id").post(deleteMovie);
-
+router.route("/").get(getMovies).post(createMovie);
+router.route("/metadata").get(getMovieMetadata);
+router.route("/:id").get(getMovie).delete(deleteMovie).patch(updateMovie);
 module.exports = router;
