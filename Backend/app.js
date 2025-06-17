@@ -1,56 +1,44 @@
-/* require("express-async-errors");
+require("express-async-errors");
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-const passport = require("passport");
-const session = require("express-session");
-const flash = require("connect-flash");
 const helmet = require("helmet");
 const xss = require("xss-clean");
 const rateLimit = require("express-rate-limit");
-const path = require("path");
-
+const cors = require("cors");
 
 const app = express();
 
-app.set("view engine", "ejs");
-app.use(helmet());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
+//security
+app.use(helmet());
+app.use(xss());
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
 });
 app.use(limiter);
-app.use(xss());
+app.use(cors());
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "public")));
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-  })
-);
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(flash());
-
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  next();
+});
 
 // routes
+const auth = require("./middleware/auth");
 app.use("/", require("./routes/auth"));
-app.use("/movies", require("./routes/movies"));
+app.use("/movies", auth, require("./routes/movies"));
 
 //Error handling
-app.use((req, res) => {
-  res.status(404).send(`That page (${req.url}) was not found.`);
-});
+const notFoundMiddleware = require("./middleware/not-found");
+const errorHandlerMiddleware = require("./middleware/error-handler");
+app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware);
 
-app.use((err, req, res, next) => {
-  res.status(500).send(err.message);
-  console.log(err);
-});
-
+//start
 const port = process.env.PORT || 3000;
 const start = async () => {
   try {
@@ -63,9 +51,9 @@ const start = async () => {
   }
 };
 
-start(); */
+start();
 
-require("dotenv").config();
+/* require("dotenv").config();
 const express = require("express");
 const app = express();
 
@@ -76,4 +64,4 @@ app.get("/", (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-});
+}); */
