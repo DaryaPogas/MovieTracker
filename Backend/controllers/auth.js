@@ -1,52 +1,41 @@
 const User = require("../models/User");
-const parseVErr = require("../util/parseValidationErr");
+const { StatusCodes } = require("http-status-codes");
+const { BadRequestError } = require("../errors");
+const { UnauthenticatedError } = require("../errors");
 
-const registerShow = (req, res) => {
-  res.render("register");
-};
-
-const registerDo = async (req, res, next) => {
-  if (req.body.password != req.body.password1) {
-    req.flash("error", "The passwords entered do not match.");
-    return res.render("register", {
-      errors: req.flash("errors"),
-    });
-  }
+const register = async (req, res) => {
   try {
-    await User.create(req.body);
-  } catch (e) {
-    if (e.constructor.name === "ValidationError") {
-      parseVErr(e, req);
-    } else if (e.name === "MongoServerError" && e.code === 11000) {
-      req.flash("error", "That email address is already registered.");
-    } else {
-      return next(e);
-    }
-    return res.render("register", {
-      errors: req.flash("errors"),
-    });
+    const user = await User.create({ ...req.body });
+    const token = user.createJWT();
+    console.log("Generated token:", token);
+    res
+      .status(StatusCodes.CREATED)
+      .json({ user: { name: user.name, email: user.email }, token });
+  } catch (error) {
+    console.error("Registration error:", error);
+    res.status(500).json({ error: error.message });
   }
-  res.redirect("/");
 };
 
-const logoff = (req, res) => {
-  req.logout((err) => {
-    if (err) return next(err);
-    req.flash("success", "You have been logged out.");
-    res.redirect("/");
-  });
-};
+const login = async (req, res) => {
+  const { email, password } = req.body;
 
-const logonShow = (req, res) => {
-  if (req.user) {
-    return res.redirect("/");
+  if (!email || !password) {
+    throw new BadRequestError("Please provide email and password");
   }
-  res.render("logon");
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new UnauthenticatedError("Invalid credentials");
+  }
+
+  const isPasswordCorrect = await user.comparePassword(password);
+  if (!isPasswordCorrect) {
+    throw new UnauthenticatedError("Invalid credentials");
+  }
+
+  const token = user.createJWT();
+  res.status(StatusCodes.OK).json({ user: { name: user.name }, token });
 };
 
-module.exports = {
-  registerShow,
-  registerDo,
-  logoff,
-  logonShow,
-};
+module.exports = { register, login };
