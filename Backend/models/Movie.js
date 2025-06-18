@@ -43,15 +43,17 @@ const MovieSchema = new mongoose.Schema(
     },
     rating: {
       type: String,
-      enum:{values: [
-        "NOT_WATCHED_YET",
-        "Perfect",
-        "Great",
-        "Good",
-        "Okay",
-        "Bad",
-        "Spilled Popcorn",
-      ]},
+      enum: {
+        values: [
+          "NOT_WATCHED_YET",
+          "Perfect",
+          "Great",
+          "Good",
+          "Okay",
+          "Bad",
+          "Spilled Popcorn",
+        ],
+      },
       default: "NOT_WATCHED_YET",
       validate: {
         validator: function (value) {
@@ -86,6 +88,5 @@ const MovieSchema = new mongoose.Schema(
   },
   { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
-
 
 module.exports = mongoose.model("Movie", MovieSchema);
