@@ -20,7 +20,12 @@ const limiter = rateLimit({
   max: 100,
 });
 app.use(limiter);
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
