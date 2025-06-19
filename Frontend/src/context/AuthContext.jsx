@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-
+import API from "../api/index.js";
 const AuthContext = createContext();
 
 // This is the main provider component
@@ -10,7 +10,10 @@ export function AuthProvider({ children }) {
     const token = localStorage.getItem("token");
     if (token) {
       // Here you could verify the token with your backend
-      setUser({ email: localStorage.getItem("userEmail") });
+      //setUser({ email: localStorage.getItem("userEmail") });
+      API.get("/validate-token")
+        .then(() => setUser({ email: localStorage.getItem("userEmail") }))
+        .catch(() => logout());
     }
   }, []);
 
