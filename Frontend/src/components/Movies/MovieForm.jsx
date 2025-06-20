@@ -1,186 +1,117 @@
-import { useForm } from "react-hook-form";
-import { useAuth } from "../../context/AuthContext";
-import { createMovie, updateMovie } from "../../api/movies";
-import { GENRES, AGE_RATINGS, RATINGS } from "../utils/constants";
-import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
-export default function MovieFormPage() {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const { user } = useAuth();
-  const isEditMode = Boolean(id);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-    reset,
-  } = useForm({
-    defaultValues: {
-      title: "",
-      year: new Date().getFullYear(),
-      genres: [],
-      ageRating: "G",
-      status: "planned",
-      rating: "NOT_WATCHED_YET",
-      review: "",
-      posterUrl: "",
-    },
+const MovieForm = ({ initialData = {}, onSubmit, isEditing = false }) => {
+  const [form, setForm] = useState({
+    title: "",
+    status: "",
+    rating: "",
+    genres: [],
+    ageRating: "",
+    ...initialData,
   });
 
-  // Load movie data in edit mode
   useEffect(() => {
-    if (isEditMode) {
-      const loadMovie = async () => {
-        try {
-          const movie = await getMovie(id);
-          reset(movie);
-        } catch (error) {
-          console.error("Failed to load movie:", error);
-          navigate("/movies");
-        }
-      };
-      loadMovie();
+    if (initialData) {
+      setForm((prev) => ({ ...prev, ...initialData }));
     }
-  }, [id, reset, navigate, isEditMode]);
+  }, [initialData]);
 
-  const status = watch("status");
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
 
-  const onSubmit = async (data) => {
-    try {
-      if (isEditMode) {
-        await updateMovie(id, data);
-      } else {
-        await createMovie({ ...data, createdBy: user._id });
-      }
-      navigate("/movies");
-    } catch (error) {
-      console.error("Submission error:", error);
-    }
+  const handleGenresChange = (e) => {
+    const selected = Array.from(
+      e.target.selectedOptions,
+      (option) => option.value
+    );
+    setForm({ ...form, genres: selected });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(form);
   };
 
   return (
-    <div className="movie-form-container">
-      <h2>{isEditMode ? "Edit Movie" : "Add New Movie"}</h2>
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-4 max-w-md mx-auto"
+    >
+      <input
+        type="text"
+        name="title"
+        value={form.title}
+        onChange={handleChange}
+        placeholder="Title"
+        className="border px-3 py-2 rounded"
+        required
+      />
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {/* Title */}
-        <div className="form-group">
-          <label>Title *</label>
-          <input
-            {...register("title", { required: "Title is required" })}
-            className={errors.title ? "error" : ""}
-          />
-          {errors.title && (
-            <span className="error-message">{errors.title.message}</span>
-          )}
-        </div>
+      <select
+        name="status"
+        value={form.status}
+        onChange={handleChange}
+        className="border px-3 py-2 rounded"
+        required
+      >
+        <option value="">Select status</option>
+        <option value="planned">Planned</option>
+        <option value="watched">Watched</option>
+      </select>
 
-        {/* Year */}
-        <div className="form-group">
-          <label>Year *</label>
-          <input
-            type="number"
-            {...register("year", {
-              required: "Year is required",
-              min: { value: 1900, message: "Must be 1900 or later" },
-              max: {
-                value: new Date().getFullYear(),
-                message: "Can't be in the future",
-              },
-            })}
-            className={errors.year ? "error" : ""}
-          />
-          {errors.year && (
-            <span className="error-message">{errors.year.message}</span>
-          )}
-        </div>
+      <select
+        name="rating"
+        value={form.rating}
+        onChange={handleChange}
+        className="border px-3 py-2 rounded"
+        required
+      >
+        <option value="">Select rating</option>
+        {[1, 2, 3, 4, 5].map((r) => (
+          <option key={r} value={r}>
+            {r}
+          </option>
+        ))}
+      </select>
 
-        {/* Genres Multi-select */}
-        <div className="form-group">
-          <label>Genres *</label>
-          <select
-            multiple
-            {...register("genres", { required: "Select at least one genre" })}
-            className={errors.genres ? "error" : ""}
-          >
-            {GENRES.map((genre) => (
-              <option key={genre} value={genre}>
-                {genre}
-              </option>
-            ))}
-          </select>
-          {errors.genres && (
-            <span className="error-message">{errors.genres.message}</span>
-          )}
-        </div>
+      <select
+        multiple
+        name="genres"
+        value={form.genres}
+        onChange={handleGenresChange}
+        className="border px-3 py-2 rounded h-32"
+      >
+        {["Action", "Drama", "Comedy", "Fantasy", "Sci-Fi"].map((g) => (
+          <option key={g} value={g}>
+            {g}
+          </option>
+        ))}
+      </select>
 
-        {/* Status and Conditional Rating */}
-        <div className="form-row">
-          <div className="form-group">
-            <label>Status</label>
-            <select {...register("status")}>
-              <option value="planned">Planned</option>
-              <option value="watched">Watched</option>
-              <option value="abandoned">Abandoned</option>
-            </select>
-          </div>
+      <select
+        name="ageRating"
+        value={form.ageRating}
+        onChange={handleChange}
+        className="border px-3 py-2 rounded"
+        required
+      >
+        <option value="">Select age rating</option>
+        <option value="G">G</option>
+        <option value="PG">PG</option>
+        <option value="PG-13">PG-13</option>
+        <option value="R">R</option>
+      </select>
 
-          {status === "watched" && (
-            <div className="form-group">
-              <label>Rating *</label>
-              <select
-                {...register("rating", {
-                  validate: (value) =>
-                    value !== "NOT_WATCHED_YET" || "Rating is required",
-                })}
-                className={errors.rating ? "error" : ""}
-              >
-                {RATINGS.filter((r) => r !== "NOT_WATCHED_YET").map(
-                  (rating) => (
-                    <option key={rating} value={rating}>
-                      {rating}
-                    </option>
-                  )
-                )}
-              </select>
-              {errors.rating && (
-                <span className="error-message">{errors.rating.message}</span>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* Review and Poster URL */}
-        <div className="form-group">
-          <label>Review</label>
-          <textarea {...register("review")} rows="4" />
-        </div>
-
-        <div className="form-group">
-          <label>Poster URL</label>
-          <input
-            type="url"
-            {...register("posterUrl")}
-            placeholder="https://example.com/poster.jpg"
-          />
-        </div>
-
-        <div className="form-actions">
-          <button type="submit" className="btn-primary">
-            {isEditMode ? "Update" : "Save"} Movie
-          </button>
-          <button
-            type="button"
-            className="btn-secondary"
-            onClick={() => navigate("/movies")}
-          >
-            Cancel
-          </button>
-        </div>
-      </form>
-    </div>
+      <button
+        type="submit"
+        className="bg-green-600 text-white py-2 rounded hover:bg-green-700"
+      >
+        {isEditing ? "Update Movie" : "Add Movie"}
+      </button>
+    </form>
   );
-}
+};
+
+export default MovieForm;

@@ -34,8 +34,8 @@ app.use((req, res, next) => {
 
 // routes
 const auth = require("./middleware/auth");
-app.use("/", require("./routes/auth"));
-app.use("/movies", auth, require("./routes/movies"));
+app.use("/api/v1/auth", require("./routes/auth"));
+app.use("/api/v1/movies", auth, require("./routes/movies"));
 
 //Error handling
 const notFoundMiddleware = require("./middleware/not-found");

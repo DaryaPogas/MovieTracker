@@ -1,27 +1,52 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import LoginForm from './Authentication/LoginForm';
-import RegisterForm from './Authentication/RegisterForm';
-import MoviesPage from './Pages/MoviesPage';
+import { Routes, Route } from "react-router-dom";
+import ProtectedRoute from "./Shared/ProtectedRoute";
+import useAuth from "../hooks/useAuth";
 
-export default function AppRoutes() {
+import Home from "../pages/Home";
+import Movies from "../pages/Movies";
+import MovieDetail from "../pages/MovieDetail";
+import MovieForm from "../pages/MovieForm";
+
+const AppRoutes = () => {
   const { user } = useAuth();
 
   return (
     <Routes>
-      {/* Публичные маршруты */}
-      <Route path="/login" element={user ? <Navigate to="/movies" /> : <LoginForm />} />
-      <Route path="/register" element={user ? <Navigate to="/movies" /> : <RegisterForm />} />
-
-      {/* Защищенные маршруты */}
+      <Route path="/" element={<Home />} />
       <Route
         path="/movies"
-        element={user ? <MoviesPage /> : <Navigate to="/login" />}
+        element={
+          <ProtectedRoute user={user}>
+            <Movies />
+          </ProtectedRoute>
+        }
       />
-
-      {/* Перенаправление */}
-      <Route path="/" element={<Navigate to={user ? '/movies' : '/login'} />} />
-      <Route path="*" element={<Navigate to="/" />} />
+      <Route
+        path="/movies/:id"
+        element={
+          <ProtectedRoute user={user}>
+            <MovieDetail />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/movies/:id/edit"
+        element={
+          <ProtectedRoute user={user}>
+            <MovieForm />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/movies/new"
+        element={
+          <ProtectedRoute user={user}>
+            <MovieForm />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
-}
+};
+
+export default AppRoutes;
