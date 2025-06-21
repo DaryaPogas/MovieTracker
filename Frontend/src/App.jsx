@@ -1,10 +1,10 @@
 import { Routes, Route } from "react-router-dom";
-import Home from "./Pages/Home";
-import Movies from "./Pages/Movies";
-import MovieAdd from "./Pages/MovieAdd";
-import MovieEdit from "./Pages/MovieEdit";
-import MovieDetail from "./Pages/MovieDetail";
-import ProtectedRoute from "./components/ProtectedRoute";
+import Home from "./pages/Home";
+import Movies from "./features/movies/pages/Movies";
+import MovieDetail from "./features/movies/pages/MovieDetail";
+import MovieAdd from "./features/movies/pages/MovieAdd";
+import MovieEdit from "./features/movies/pages/MovieEdit";
+import ProtectedRoute from "./shared/ProtectedRoute";
 
 const App = () => {
   return (

@@ -14,7 +14,7 @@ const MovieForm = ({ initialData = {}, onSubmit, isEditing = false }) => {
     if (initialData) {
       setForm((prev) => ({ ...prev, ...initialData }));
     }
-  }, [initialData]);
+  }, [JSON.stringify(initialData)]); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -69,7 +69,15 @@ const MovieForm = ({ initialData = {}, onSubmit, isEditing = false }) => {
         required
       >
         <option value="">Select rating</option>
-        {[1, 2, 3, 4, 5].map((r) => (
+        {[
+          "Perfect",
+          "Great",
+          "Good",
+          "Okay",
+          "Bad",
+          "Spilled Popcorn",
+          "NOT_WATCHED_YET", // опционально, если нужен
+        ].map((r) => (
           <option key={r} value={r}>
             {r}
           </option>
@@ -83,9 +91,27 @@ const MovieForm = ({ initialData = {}, onSubmit, isEditing = false }) => {
         onChange={handleGenresChange}
         className="border px-3 py-2 rounded h-32"
       >
-        {["Action", "Drama", "Comedy", "Fantasy", "Sci-Fi"].map((g) => (
-          <option key={g} value={g}>
-            {g}
+        {[
+          "Action",
+          "Adventure",
+          "Animation",
+          "Comedy",
+          "Crime",
+          "Documentary",
+          "Drama",
+          "Fantasy",
+          "Historical",
+          "Horror",
+          "Musical",
+          "Mystery",
+          "Romance",
+          "Sci-Fi",
+          "Thriller",
+          "War",
+          "Western",
+        ].map((genre) => (
+          <option key={genre} value={genre}>
+            {genre}
           </option>
         ))}
       </select>

@@ -9,13 +9,13 @@ export const login = async (credentials) => {
    
     if (response.data.token) {
       localStorage.setItem("token", response.data.token); 
-      console.log("Токен сохранён:", response.data.token); 
+      console.log("Token is saved:", response.data.token); 
       return response.data;
     } else {
-      throw new Error("Токен не получен от сервера");
+      throw new Error("Did not recieve token");
     }
   } catch (error) {
-    console.error("Ошибка входа:", error.response?.data || error.message);
+    console.error("Error:", error.response?.data || error.message);
     throw error;
   }
 };
