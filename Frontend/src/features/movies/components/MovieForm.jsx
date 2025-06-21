@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 const MovieForm = ({ initialData = {}, onSubmit, isEditing = false }) => {
   const [form, setForm] = useState({
     title: "",
+    director: "",
     status: "",
     rating: "",
     genres: [],
@@ -48,7 +49,15 @@ const MovieForm = ({ initialData = {}, onSubmit, isEditing = false }) => {
         className="border px-3 py-2 rounded"
         required
       />
-
+      <input
+        type="text"
+        name="director"
+        value={form.director}
+        onChange={handleChange}
+        placeholder="Director"
+        className="border px-3 py-2 rounded"
+        required
+      />
       <select
         name="status"
         value={form.status}
