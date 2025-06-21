@@ -8,6 +8,7 @@ const Home = () => {
   const navigate = useNavigate();
   const [tab, setTab] = useState("login");
   const [form, setForm] = useState({
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -28,13 +29,24 @@ const Home = () => {
     try {
       const endpoint =
         tab === "login" ? "/api/v1/auth/login" : "/api/v1/auth/register";
-      const payload = {
-        email: form.email,
-        password: form.password,
-      };
+      const payload =
+        tab === "register"
+          ? {
+              name: form.name,
+              email: form.email,
+              password: form.password,
+            }
+          : {
+              email: form.email,
+              password: form.password,
+            };
       const res = await axios.post(endpoint, payload);
-      login(res.data.token);
-      navigate("/movies");
+      if (tab === "login") {
+        login(res.data.token);
+        navigate("/movies");
+      } else {
+        setTab("login");
+      }
     } catch (err) {
       setError(err.response?.data?.msg || "Authentication failed");
     }
@@ -62,6 +74,15 @@ const Home = () => {
       </div>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <input
+          type="text"
+          name="name"
+          placeholder="Your name"
+          value={form.name}
+          onChange={handleChange}
+          className="border p-2 rounded w-full"
+        />
+
         <input
           type="email"
           name="email"

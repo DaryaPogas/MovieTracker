@@ -1,11 +1,12 @@
 import { Routes, Route } from "react-router-dom";
-import ProtectedRoute from "./Shared/ProtectedRoute";
+import ProtectedRoute from "./shared/ProtectedRoute";
 import useAuth from "../hooks/useAuth";
 
-import Home from "../pages/Home";
-import Movies from "../pages/Movies";
-import MovieDetail from "../pages/MovieDetail";
-import MovieForm from "../pages/MovieForm";
+import Home from "./pages/Home";
+import Movies from "../features/movies/pages/Movies";
+import MovieDetail from "../features/movies/pages/MovieDetail";
+import MovieAdd from "../features/movies/pages/MovieAdd"
+import MovieEdit from "../features/movies/pages/MovieEdit";
 
 const AppRoutes = () => {
   const { user } = useAuth();
@@ -33,7 +34,7 @@ const AppRoutes = () => {
         path="/movies/:id/edit"
         element={
           <ProtectedRoute user={user}>
-            <MovieForm />
+            <MovieEdit />
           </ProtectedRoute>
         }
       />
@@ -41,7 +42,7 @@ const AppRoutes = () => {
         path="/movies/new"
         element={
           <ProtectedRoute user={user}>
-            <MovieForm />
+            <MovieAdd />
           </ProtectedRoute>
         }
       />

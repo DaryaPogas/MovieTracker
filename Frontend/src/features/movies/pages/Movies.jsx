@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import useAuth from "../hooks/useAuth";
-import MovieFilters from "../components/Movies/MovieFilters";
+import useAuth from "../../../hooks/useAuth";
+import MovieFilters from "../components/MovieFilters";
 
 const Movies = () => {
   const { token } = useAuth();

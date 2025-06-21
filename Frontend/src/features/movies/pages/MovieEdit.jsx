@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import MovieForm from "../components/Movies/MovieForm";
-import useAuth from "../hooks/useAuth";
+import MovieForm from "../components/MovieForm";
+import useAuth from "../../../hooks/useAuth";
 
 const MovieEdit = () => {
   const { id } = useParams();
