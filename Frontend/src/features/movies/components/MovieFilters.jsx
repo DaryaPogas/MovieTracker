@@ -7,11 +7,23 @@ const MovieFilters = ({
   currentPage,
   totalPages,
   onPageChange,
+  onSearchClick,
 }) => {
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
     <>
+      <div className="mb-4">
+        <input
+          type="text"
+          placeholder="Search by title or director"
+          value={filters.search}
+          onChange={(e) => onFilterChange("search", e.target.value)}
+          className="border rounded px-3 py-2 w-full sm:w-64"
+        />
+        
+      </div>
+
       <div className="flex flex-wrap gap-4 mb-6">
         <select
           className="border rounded px-3 py-2"
@@ -71,8 +83,8 @@ const MovieFilters = ({
           onChange={(e) => onFilterChange("sort", e.target.value)}
         >
           <option value="">No Sorting</option>
-          <option value="asc">Rating Ascending</option>
-          <option value="desc">Rating Descending</option>
+          <option value="ratingAsc">Rating Ascending</option>
+          <option value="ratingDesc">Rating Descending</option>
         </select>
       </div>
 

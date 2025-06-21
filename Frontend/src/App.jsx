@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
+import NotFound from "./pages/NotFound"
 import Movies from "./features/movies/pages/Movies";
 import MovieDetail from "./features/movies/pages/MovieDetail";
 import MovieAdd from "./features/movies/pages/MovieAdd";
@@ -24,6 +25,7 @@ const App = () => {
             <ProtectedRoute>
               <MovieAdd />
             </ProtectedRoute>
+
           }
         />
         <Route
@@ -42,6 +44,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        <Route path="*" element={<NotFound />} />
       </Routes>
   );
 };
