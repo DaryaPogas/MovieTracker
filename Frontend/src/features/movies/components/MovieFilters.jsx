@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import "./MovieFilters.css";
 const MovieFilters = ({
   metadata,
   filters,
@@ -13,20 +13,17 @@ const MovieFilters = ({
 
   return (
     <>
-      <div className="mb-4">
+      <div className="filters-search">
         <input
           type="text"
           placeholder="Search by title or director"
           value={filters.search}
           onChange={(e) => onFilterChange("search", e.target.value)}
-          className="border rounded px-3 py-2 w-full sm:w-64"
         />
-        
       </div>
 
-      <div className="flex flex-wrap gap-4 mb-6">
+      <div className="filters-controls">
         <select
-          className="border rounded px-3 py-2"
           value={filters.status}
           onChange={(e) => onFilterChange("status", e.target.value)}
         >
@@ -39,7 +36,6 @@ const MovieFilters = ({
         </select>
 
         <select
-          className="border rounded px-3 py-2"
           value={filters.rating}
           onChange={(e) => onFilterChange("rating", e.target.value)}
         >
@@ -52,7 +48,6 @@ const MovieFilters = ({
         </select>
 
         <select
-          className="border rounded px-3 py-2"
           value={filters.genre}
           onChange={(e) => onFilterChange("genre", e.target.value)}
         >
@@ -65,7 +60,6 @@ const MovieFilters = ({
         </select>
 
         <select
-          className="border rounded px-3 py-2"
           value={filters.ageRating}
           onChange={(e) => onFilterChange("ageRating", e.target.value)}
         >
@@ -78,7 +72,6 @@ const MovieFilters = ({
         </select>
 
         <select
-          className="border rounded px-3 py-2"
           value={filters.sort}
           onChange={(e) => onFilterChange("sort", e.target.value)}
         >
@@ -89,21 +82,19 @@ const MovieFilters = ({
       </div>
 
       {totalPages > 1 && (
-        <div className="flex gap-2 mb-6">
+        <div className="filters-pagination">
           <button
             onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="px-3 py-1 border rounded disabled:opacity-50"
           >
             Prev
           </button>
+
           {pageNumbers.map((num) => (
             <button
               key={num}
               onClick={() => onPageChange(num)}
-              className={`px-3 py-1 border rounded ${
-                currentPage === num ? "bg-blue-500 text-white" : ""
-              }`}
+              className={currentPage === num ? "active-page" : ""}
             >
               {num}
             </button>
@@ -111,7 +102,6 @@ const MovieFilters = ({
           <button
             onClick={() => onPageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="px-3 py-1 border rounded disabled:opacity-50"
           >
             Next
           </button>

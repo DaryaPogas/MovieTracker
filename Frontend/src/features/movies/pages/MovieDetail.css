@@ -1,0 +1,91 @@
+.movie-detail-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+}
+
+.movie-detail-poster {
+      display: block;         
+  margin: 0 auto;  
+  width: 100%;
+  max-width: 300px;
+   height: 450px;
+   object-fit: cover; 
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  margin-bottom: 1rem;
+}
+
+.movie-title {
+    text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  word-break: break-word; 
+  white-space: normal;   
+}
+
+.movie-field {
+  color: #333;
+  margin-bottom: 0.4rem;
+}
+
+.movie-review {
+  margin-top: 1.5rem;
+}
+
+.movie-review h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.movie-date {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 1rem;
+}
+
+.movie-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn.edit {
+  background-color: #facc15;
+  color: #000;
+}
+
+.btn.delete {
+  background-color: #ef4444;
+  color: white;
+}
+
+.btn.back {
+  background-color: #e5e7eb;
+  color: #111827;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.error-text {
+  color: red;
+  padding: 1rem;
+  text-align: center;
+}
+
+.loading-text {
+  padding: 1rem;
+  text-align: center;
+}

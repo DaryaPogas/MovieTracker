@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import MovieForm from "../components/MovieForm";
 import useAuth from "../../../hooks/useAuth";
+import "./MovieEdit.css";
 
 const MovieEdit = () => {
   const { id } = useParams();
@@ -36,12 +37,12 @@ const MovieEdit = () => {
     }
   };
 
-  if (error) return <p className="text-red-500 text-center mt-10">{error}</p>;
-  if (!movie) return <p className="text-center mt-10">Loading...</p>;
+  if (error) return <p className="edit-error">{error}</p>;
+  if (!movie) return <p className="edit-loading">Loading...</p>;
 
   return (
-    <div className="p-6 max-w-xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Edit Movie</h2>
+    <div className="edit-container">
+      <h2 className="edit-title">Edit Movie</h2>
       <MovieForm initialData={movie} onSubmit={handleUpdate} isEditing />
     </div>
   );

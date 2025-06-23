@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import MovieForm from "../components/MovieForm";
 import useAuth from "../../../hooks/useAuth";
-
+import "./MovieAdd.css"; 
 const MovieAdd = () => {
   const { token } = useAuth();
   const navigate = useNavigate();
@@ -19,8 +19,8 @@ const MovieAdd = () => {
   };
 
   return (
-    <div className="p-6 max-w-xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Add Movie</h2>
+    <div className="movie-add-container">
+      <h2 className="movie-add-title">Add Movie</h2>
       <MovieForm onSubmit={handleCreate} />
     </div>
   );

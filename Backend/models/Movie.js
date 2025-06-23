@@ -77,14 +77,15 @@ const MovieSchema = new mongoose.Schema(
       default: "planned",
     },
     posterUrl: {
-      type: String,
-      validate: {
-        validator: (url) => {
-          return /^https?:\/\/.+\..+/.test(url);
-        },
-        message: "Invalid poster URL",
-      },
+  type: String,
+  validate: {
+    validator: function (v) {
+      return !v || /^https?:\/\/.+/.test(v);
     },
+    message: "Invalid poster URL",
+  },
+  default: "https://via.placeholder.com/300x450?text=No+Poster",
+},
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

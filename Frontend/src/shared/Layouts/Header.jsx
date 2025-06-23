@@ -1,16 +1,34 @@
-import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import "./Header.css";
+import logoutIcon from "../../assets/logout.png";
 
-function Header() {
+export default function Header() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
   return (
-    <header>
-      <nav>
-        <Link to="/movies" className="nav-link">
-          All Movies
-        </Link>
-        <Link to="/movies/add" className="btn-add">
-          + Add New Movie
-        </Link>
-      </nav>
+    <header className="header">
+      <div className="header-left">
+        <h1 className="project-title">🎬 MovieTracker</h1>
+      </div>
+      {user && (
+        <div className="header-right">
+          <span className="user-name">Logged in as {user.name}</span>
+          <button
+            className="logout-button"
+            onClick={handleLogout}
+            title="Logout"
+          >
+            <img src={logoutIcon} alt="Logout" className="logout-icon" />
+          </button>
+        </div>
+      )}
     </header>
   );
 }

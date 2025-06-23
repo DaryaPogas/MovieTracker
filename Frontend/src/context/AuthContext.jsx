@@ -2,41 +2,51 @@ import { createContext, useContext, useState, useEffect } from "react";
 import API from "../api/index.js";
 const AuthContext = createContext();
 
-// This is the main provider component
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      // Here you could verify the token with your backend
-      //setUser({ email: localStorage.getItem("userEmail") });
-      API.get("/validate-token")
-        .then(() => setUser({ email: localStorage.getItem("userEmail") }))
-        .catch(() => logout());
+      API.get("/api/v1/auth/validate-token", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((res) => {
+          setUser({
+            name: res.data.user.name,
+            email: localStorage.getItem("userEmail"),
+          });
+        })
+        .catch(() => logout())
+        .finally(() => setLoading(false));
+    } else {
+      setLoading(false); 
     }
   }, []);
 
   const login = (userData) => {
     localStorage.setItem("token", userData.token);
-    localStorage.setItem("userEmail", userData.email);
-    setUser({ email: userData.email });
+    localStorage.setItem("userEmail", userData.user.email);
+    setUser({
+      email: userData.user.email,
+    });
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userEmail");
     setUser(null);
+    console.log("User logged out.");
   };
-
+  if (loading) return null;
   return (
     <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 }
-
-// This is the hook you need to export
 export function useAuth() {
   return useContext(AuthContext);
 }
