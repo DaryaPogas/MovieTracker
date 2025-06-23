@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-
+import './MovieList.css';
 function MovieList({ movies }) {
   return (
     <div className="movie-grid">

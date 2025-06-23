@@ -2,6 +2,7 @@ const User = require("../models/User");
 const { StatusCodes } = require("http-status-codes");
 const { BadRequestError } = require("../errors");
 const { UnauthenticatedError } = require("../errors");
+const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
   try {
@@ -35,7 +36,24 @@ const login = async (req, res) => {
   }
 
   const token = user.createJWT();
-  res.status(StatusCodes.OK).json({ user: { name: user.name }, token });
+  res
+    .status(StatusCodes.OK)
+    .json({ user: { name: user.name, email: user.email }, token });
 };
 
-module.exports = { register, login };
+const validateToken = async (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ msg: "No token provided" });
+  }
+
+  const token = authHeader.split(" ")[1];
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    res.status(200).json({ user: { _id: payload._id, name: payload.name } });
+  } catch (err) {
+    return res.status(401).json({ msg: "Invalid token" });
+  }
+};
+
+module.exports = { register, login, validateToken };

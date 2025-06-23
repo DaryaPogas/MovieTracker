@@ -6,46 +6,54 @@ import MovieDetail from "./features/movies/pages/MovieDetail";
 import MovieAdd from "./features/movies/pages/MovieAdd";
 import MovieEdit from "./features/movies/pages/MovieEdit";
 import ProtectedRoute from "./shared/ProtectedRoute";
+import MainLayout from "./shared/Layouts/MainLayout";
 
 const App = () => {
   return (
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route
-          path="/movies"
-          element={
-            <ProtectedRoute>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route
+        path="/movies"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
               <Movies />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/movies/new"
-          element={
-            <ProtectedRoute>
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/movies/new"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
               <MovieAdd />
-            </ProtectedRoute>
-
-          }
-        />
-        <Route
-          path="/movies/:id/edit"
-          element={
-            <ProtectedRoute>
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/movies/:id/edit"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
               <MovieEdit />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/movies/:id"
-          element={
-            <ProtectedRoute>
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/movies/:id"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
               <MovieDetail />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 };
 

@@ -1,34 +1,15 @@
-/* const express = require("express");
-const router = express.Router();
 
-const {
-  logonShow,
-  registerShow,
-  registerDo,
-  logoff,
-} = require("../controllers/auth");
-
-router.route("/register").get(registerShow).post(registerDo);
-router
-  .route("/logon")
-  .get(logonShow)
-  .post(
-    passport.authenticate("local", {
-      successRedirect: "/",
-      failureRedirect: "/sessions/logon",
-      failureFlash: true,
-    })
-  );
-router.route("/logoff").post(logoff);
-
-module.exports = router;
- */
 const express = require("express");
 const router = express.Router();
 
 const { login, register } = require("../controllers/auth");
+const auth = require("../middleware/auth");
 
 router.post("/register", register);
 router.post("/login", login);
 
+router.get("/validate-token", auth, (req, res) => {
+  const { _id, name } = req.user;
+  res.status(200).json({ user: { _id, name } });
+});
 module.exports = router;

@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../../../hooks/useAuth";
+import "./MovieDetail.css";
+import defaultPoster from "../../../assets/movie_default.jpg";
 
 const MovieDetail = () => {
   const { id } = useParams();
@@ -43,37 +45,43 @@ const MovieDetail = () => {
     }
   };
 
-  if (error) return <p className="text-red-500 p-4">{error}</p>;
-  if (!movie) return <p className="p-4">Loading...</p>;
+  if (error) return <p className="error-text">{error}</p>;
+  if (!movie) return <p className="loading-text">Loading...</p>;
 
   return (
-    <div className="p-6 max-w-xl mx-auto">
-      <h2 className="text-2xl font-bold mb-2">{movie.title}</h2>
-      <p className="text-gray-700">Status: {movie.status}</p>
-      <p className="text-gray-700">Rating: {movie.rating}</p>
-      <p className="text-gray-700">Genres: {movie.genres?.join(", ")}</p>
-      <p className="text-gray-700">Age Rating: {movie.ageRating}</p>
-      <p className="text-sm text-gray-500 mt-4">
+    <div className="movie-detail-container">
+      <img
+        src={movie.posterUrl?.trim() ? movie.posterUrl : defaultPoster}
+        alt={`${movie.title} poster`}
+        className="movie-detail-poster"
+      />
+
+      <h2 className="movie-title">{movie.title}</h2>
+      <p className="movie-field">Status: {movie.status}</p>
+      <p className="movie-field">Rating: {movie.rating}</p>
+      <p className="movie-field">Genres: {movie.genres?.join(", ")}</p>
+      <p className="movie-field">Age Rating: {movie.ageRating}</p>
+      {movie.review && (
+        <div className="movie-review">
+          <h3>Review</h3>
+          <p>{movie.review}</p>
+        </div>
+      )}
+      <p className="movie-date">
         Added: {new Date(movie.createdAt).toLocaleDateString()}
       </p>
 
-      <div className="mt-6 flex gap-4">
+      <div className="movie-actions">
         <button
+          className="btn edit"
           onClick={() => navigate(`/movies/${movie._id}/edit`)}
-          className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
         >
           Edit
         </button>
-        <button
-          onClick={handleDelete}
-          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-        >
+        <button className="btn delete" onClick={handleDelete}>
           Delete
         </button>
-        <button
-          onClick={() => navigate("/movies")}
-          className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
-        >
+        <button className="btn back" onClick={() => navigate("/movies")}>
           Back to List
         </button>
       </div>

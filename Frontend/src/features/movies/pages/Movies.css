@@ -1,0 +1,110 @@
+.movies-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+}
+
+.movies-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.movies-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.add-btn,
+.clear-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #2d8f45;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-btn:hover,
+.clear-btn:hover {
+  background-color: #246f38;
+}
+
+.filters-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.error-msg {
+  color: red;
+  margin-bottom: 1rem;
+}
+
+.no-movies {
+  text-align: center;
+  margin-top: 3rem;
+  color: #555;
+}
+
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.25rem;
+}
+
+.movie-card {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  transition: box-shadow 0.2s ease;
+  text-align: center;
+}
+
+.movie-card:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.poster {
+  width: 100%;
+  height: 270px;
+  object-fit: cover;
+}
+
+.badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border-radius: 4px;
+  color: white;
+  text-transform: capitalize;
+}
+
+.badge.watched {
+  background-color: #2d8f45;
+}
+
+.badge.planned {
+  background-color: #1e40af;
+}
+
+.movie-title {
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+

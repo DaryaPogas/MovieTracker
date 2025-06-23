@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import "./MovieForm.css";
 
 const MovieForm = ({ initialData = {}, onSubmit, isEditing = false }) => {
   const [form, setForm] = useState({
@@ -8,6 +9,8 @@ const MovieForm = ({ initialData = {}, onSubmit, isEditing = false }) => {
     rating: "",
     genres: [],
     ageRating: "",
+    review: "",
+    posterUrl: "",
     ...initialData,
   });
 
@@ -30,23 +33,28 @@ const MovieForm = ({ initialData = {}, onSubmit, isEditing = false }) => {
     setForm({ ...form, genres: selected });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(form);
-  };
+ const handleSubmit = (e) => {
+   e.preventDefault();
+
+   const dataToSend = { ...form };
+   if (form.status !== "watched") {
+     delete dataToSend.review; 
+   }
+   if (!form.posterUrl?.trim()) {
+     form.posterUrl = "/default-poster.jpg";
+   }
+   onSubmit(dataToSend);
+ };
+
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col gap-4 max-w-md mx-auto"
-    >
+    <form onSubmit={handleSubmit} className="movie-form">
       <input
         type="text"
         name="title"
         value={form.title}
         onChange={handleChange}
         placeholder="Title"
-        className="border px-3 py-2 rounded"
         required
       />
       <input
@@ -55,26 +63,32 @@ const MovieForm = ({ initialData = {}, onSubmit, isEditing = false }) => {
         value={form.director}
         onChange={handleChange}
         placeholder="Director"
-        className="border px-3 py-2 rounded"
         required
       />
+      <input
+        type="text"
+        name="posterUrl"
+        value={form.posterUrl || ""}
+        onChange={handleChange}
+        placeholder="Poster image URL (https://...)"
+      />
+
       <select
         name="status"
         value={form.status}
         onChange={handleChange}
-        className="border px-3 py-2 rounded"
         required
       >
         <option value="">Select status</option>
         <option value="planned">Planned</option>
         <option value="watched">Watched</option>
+        <option value="abandoned">Abandoned</option>
       </select>
 
       <select
         name="rating"
         value={form.rating}
         onChange={handleChange}
-        className="border px-3 py-2 rounded"
         required
       >
         <option value="">Select rating</option>
@@ -98,7 +112,6 @@ const MovieForm = ({ initialData = {}, onSubmit, isEditing = false }) => {
         name="genres"
         value={form.genres}
         onChange={handleGenresChange}
-        className="border px-3 py-2 rounded h-32"
       >
         {[
           "Action",
@@ -129,7 +142,6 @@ const MovieForm = ({ initialData = {}, onSubmit, isEditing = false }) => {
         name="ageRating"
         value={form.ageRating}
         onChange={handleChange}
-        className="border px-3 py-2 rounded"
         required
       >
         <option value="">Select age rating</option>
@@ -139,12 +151,18 @@ const MovieForm = ({ initialData = {}, onSubmit, isEditing = false }) => {
         <option value="R">R</option>
       </select>
 
-      <button
-        type="submit"
-        className="bg-green-600 text-white py-2 rounded hover:bg-green-700"
-      >
-        {isEditing ? "Update Movie" : "Add Movie"}
-      </button>
+      {form.status === "watched" && (
+        <textarea
+          name="review"
+          value={form.review || ""}
+          onChange={handleChange}
+          placeholder="Your review"
+          rows={4}
+          maxLength={1000}
+        />
+      )}
+
+      <button type="submit">{isEditing ? "Update Movie" : "Add Movie"}</button>
     </form>
   );
 };

@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../../../hooks/useAuth";
 import MovieFilters from "../components/MovieFilters";
+import "./Movies.css";
+import defaultPoster from "../../../assets/movie_default.jpg";
 
 const Movies = () => {
   const { token } = useAuth();
@@ -93,18 +95,15 @@ const Movies = () => {
   const totalPages = Math.ceil(totalMovies / moviesPerPage);
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">My Movies</h2>
-        <button
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-          onClick={() => navigate("/movies/new")}
-        >
+    <div className="movies-container">
+      <div className="movies-header">
+        <h2 className="movies-title">My Movies</h2>
+        <button className="add-btn" onClick={() => navigate("/movies/new")}>
           Add Movie
         </button>
       </div>
 
-      <div className="flex justify-between items-center mb-4">
+      <div className="ffilters-row">
         <MovieFilters
           metadata={metadata}
           filters={filters}
@@ -114,52 +113,35 @@ const Movies = () => {
           onPageChange={setCurrentPage}
           onSearchClick={fetchMovies}
         />
-        <button
-          className="ml-4 bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
-          onClick={handleClearFilters}
-        >
+        <button className="clear-btn" onClick={handleClearFilters}>
           Clear Filters
         </button>
       </div>
 
-      {error && <p className="text-red-500 mb-4">{error}</p>}
+      {error && <p className="error-msg">{error}</p>}
 
       {movies.length === 0 ? (
-        <p className="text-gray-600 text-center mt-10">
-          No movies found for current filters.
-        </p>
+        <p className="no-movies">No movies found for current filters.</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="movie-grid">
           {movies.map((movie) => (
             <div
               key={movie._id}
-              className="border border-gray-300 rounded p-4 shadow hover:shadow-md"
+              onClick={() => navigate(`/movies/${movie._id}`)}
+              className="movie-card"
             >
-              <h3 className="text-lg font-semibold">{movie.title}</h3>
-              <p className="text-sm text-gray-600">
-                Director: {movie.director}
-              </p>
-              <p className="text-sm text-gray-600">Status: {movie.status}</p>
-              <p className="text-sm text-gray-600">Rating: {movie.rating}</p>
-              <div className="mt-3 flex gap-2">
-                <button
-                  onClick={() => navigate(`/movies/${movie._id}`)}
-                  className="text-blue-600 hover:underline text-sm"
-                >
-                  View
-                </button>
-                <button
-                  onClick={() => navigate(`/movies/${movie._id}/edit`)}
-                  className="text-yellow-600 hover:underline text-sm"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(movie._id)}
-                  className="text-red-600 hover:underline text-sm"
-                >
-                  Delete
-                </button>
+              <img
+                src={movie.posterUrl?.trim() ? movie.posterUrl : defaultPoster}
+                alt={movie.title}
+                className="poster"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = defaultPoster;
+                }}
+              />
+              <span className={`badge ${movie.status}`}>{movie.status}</span>
+              <div className="movie-title" title={movie.title}>
+                {movie.title}
               </div>
             </div>
           ))}
