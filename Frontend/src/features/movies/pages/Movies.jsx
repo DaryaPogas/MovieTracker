@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import useAuth from "../../../hooks/useAuth";
+import API from "../../../api/index";
+import { useAuth } from "../../../context/AuthContext";
 import MovieFilters from "../components/MovieFilters";
 import "./Movies.css";
 import defaultPoster from "../../../assets/movie_default.jpg";
@@ -31,10 +31,7 @@ const Movies = () => {
         page: currentPage,
         limit: moviesPerPage,
       };
-      const res = await axios.get("/api/v1/movies", {
-        headers: { Authorization: `Bearer ${token}` },
-        params,
-      });
+      const res = await API.get("/movies", {params});
       setMovies(res.data.movies);
       setTotalMovies(res.data.count);
     } catch (err) {
@@ -49,9 +46,7 @@ const Movies = () => {
   useEffect(() => {
     const fetchMetadata = async () => {
       try {
-        const res = await axios.get("/api/v1/movies/metadata", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await API.get("/movies/metadata")
         setMetadata(res.data.data);
       } catch (err) {
         console.error("Failed to load metadata");
@@ -66,9 +61,7 @@ const Movies = () => {
     );
     if (!confirmed) return;
     try {
-      await axios.delete(`/api/v1/movies/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await API.delete(`/movies/${id}`);
       fetchMovies();
     } catch (err) {
       alert("Failed to delete movie");

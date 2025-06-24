@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import MovieForm from "../components/MovieForm";
-import useAuth from "../../../hooks/useAuth";
+import { useAuth } from "../../../context/AuthContext"
+import API from '../../../api/index'
 import "./MovieAdd.css"; 
 const MovieAdd = () => {
   const { token } = useAuth();
@@ -9,9 +9,7 @@ const MovieAdd = () => {
 
   const handleCreate = async (data) => {
     try {
-      await axios.post("/api/v1/movies", data, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await API.post("/movies", data)
       navigate("/movies");
     } catch (err) {
       alert("Failed to create movie");

@@ -9,7 +9,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      API.get("/api/v1/auth/validate-token", {
+      API.get("/auth/validate-token", {
         headers: { Authorization: `Bearer ${token}` },
       })
         .then((res) => {
@@ -28,7 +28,9 @@ export function AuthProvider({ children }) {
   const login = (userData) => {
     localStorage.setItem("token", userData.token);
     localStorage.setItem("userEmail", userData.user.email);
+    localStorage.setItem("userName", userData.user.name);
     setUser({
+      name: userData.user.name,
       email: userData.user.email,
     });
   };

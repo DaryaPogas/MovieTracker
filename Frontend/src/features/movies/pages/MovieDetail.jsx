@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
-import useAuth from "../../../hooks/useAuth";
+import API from "../../../api/index"
+import { useAuth } from "../../../context/AuthContext";
 import "./MovieDetail.css";
 import defaultPoster from "../../../assets/movie_default.jpg";
 
@@ -15,11 +15,7 @@ const MovieDetail = () => {
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const res = await axios.get(`/api/v1/movies/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await API.get(`/movies/${id}`);
         setMovie(res.data.movie);
       } catch (err) {
         setError("Failed to load movie");
@@ -34,11 +30,7 @@ const MovieDetail = () => {
     );
     if (!confirmed) return;
     try {
-      await axios.delete(`/api/v1/movies/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await API.delete(`/movies/${id}`);
       navigate("/movies");
     } catch (err) {
       alert("Failed to delete movie");
