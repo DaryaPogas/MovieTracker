@@ -25,3 +25,7 @@ Filtering, pagination, search, and custom error handling
  Filter by genre, age rating, status, and user rating 
  Default fallback poster if none is provided
  Fully responsive layout for mobile and desktop
+![Screenshot 2025-06-23 at 7 55 38 PM](https://github.com/user-attachments/assets/8b2dca71-f904-4fa9-8f5d-c522a4e8a436)
+![Screenshot 2025-06-23 at 7 56 09 PM](https://github.com/user-attachments/assets/532ab2b9-fbb2-4dff-b142-e5cba8142f61)
+
+ 
