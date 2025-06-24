@@ -20,12 +20,23 @@ const limiter = rateLimit({
   max: 100,
 });
 app.use(limiter);
+
+
+const allowedOrigins =
+  process.env.NODE_ENV === "production"
+    ? [
+        "https://movie-tracker-blond.vercel.app",
+        "https://movietracker-ryhw.onrender.com",
+      ]
+    : ["http://localhost:5173", "http://localhost:3000"];
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: allowedOrigins,
     credentials: true,
   })
 );
+
 
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);

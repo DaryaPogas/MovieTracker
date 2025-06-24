@@ -2,7 +2,6 @@ import { createContext, useContext, useState, useEffect } from "react";
 import API from "../api/index.js";
 const AuthContext = createContext();
 
-
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -22,7 +21,7 @@ export function AuthProvider({ children }) {
         .catch(() => logout())
         .finally(() => setLoading(false));
     } else {
-      setLoading(false); 
+      setLoading(false);
     }
   }, []);
 
