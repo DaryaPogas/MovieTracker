@@ -6,7 +6,7 @@ It allows users to register, log in, add and manage movies, apply filters, rate,
 React (with Vite)
 React Router
 Context API for authentication
-Axios for API requests
+Axios – centralized API instance with interceptors
 Vanilla CSS
 Fully responsive design
 
@@ -16,6 +16,12 @@ MongoDB (with Mongoose)
 JWT-based authentication
 RESTful API (/api/v1)
 Filtering, pagination, search, and custom error handling
+
+🔗Live Demo
+Frontend (Vercel): https://movie-tracker-blond.vercel.app
+Backend API (Render): https://movietracker-ryhw.onrender.com/api-docs
+
+⚠️ Note: If testing locally, make sure your backend is running at http://localhost:3000.
 
 ✅ Features
  JWT-based user registration and login
@@ -30,12 +36,24 @@ Filtering, pagination, search, and custom error handling
 
  📖 API Documentation (Swagger)
 This project includes full API documentation using Swagger (OpenAPI 3.0). All endpoints are documented and split into separate YAML files for clarity.
-
 🔹 How to Access
-Local: http://localhost:3000/api-docs
-
-After running your backend locally:
-Visit http://localhost:3000/api-docs
+Live: https://movietracker-ryhw.onrender.com/api-docs
+Local: after running your backend locally, visit http://localhost:3000/api-docs
 Explore and test endpoints (e.g. register, login, create/delete/update/get a movie)
 Authorize with a Bearer token to test protected routes
 ![Screenshot 2025-06-23 at 11 43 53 PM](https://github.com/user-attachments/assets/87721d2e-0aae-4266-bbd3-afcc33453908)
+
+🚀 Getting Started (Local)
+1.Clone the repo: git clone https://github.com/yourusername/MovieTracker.git
+2.Install frontend & backend dependencies: cd Frontend npm install
+                                           cd Backend npm install
+3. Set up environment variables: create .env in both Frontend and Backend with:
+
+Frontend:
+VITE_API_URL=http://localhost:3000/api/v1
+Backend:
+MONGO_URI=your_mongodb_connection
+JWT_SECRET=your_jwt_secret    
+
+4.Run both servers
+                                          
