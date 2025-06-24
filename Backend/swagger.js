@@ -12,11 +12,11 @@ const swaggerDoc = {
     description: "API documentation for MovieTracker",
   },
   servers: [
-    {
-      url: "http://localhost:3000/api/v1",
-      description: "Local server",
-    },
-  ],
+  {
+    url: process.env.SWAGGER_SERVER_URL || "http://localhost:3000/api/v1",
+    description: "API server",
+  },
+],
   components: {
     securitySchemes: {
       bearerAuth: {
