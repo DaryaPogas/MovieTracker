@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import API from "../api";
 import useAuth from "../hooks/useAuth";
 import "./Home.css";
 import Footer from "../shared/Layouts/Footer"
@@ -43,7 +43,11 @@ const Home = () => {
               email: form.email,
               password: form.password,
             };
-      const res = await axios.post(endpoint, payload);
+      const res = await API.post(
+        tab === "login" ? "/login" : "/register",
+        payload
+      ); 
+
       if (tab === "login") {
         login(res.data.token);
         navigate("/movies");
