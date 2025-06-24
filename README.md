@@ -38,3 +38,4 @@ After running your backend locally:
 Visit http://localhost:3000/api-docs
 Explore and test endpoints (e.g. register, login, create/delete/update/get a movie)
 Authorize with a Bearer token to test protected routes
+![Screenshot 2025-06-23 at 11 43 53 PM](https://github.com/user-attachments/assets/87721d2e-0aae-4266-bbd3-afcc33453908)
