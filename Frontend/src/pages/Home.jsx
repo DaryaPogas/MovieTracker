@@ -31,7 +31,7 @@ const Home = () => {
     }
     try {
       const endpoint =
-        tab === "login" ? "/api/v1/auth/login" : "/api/v1/auth/register";
+        tab === "login" ? "/auth/login" : "/auth/register";
       const payload =
         tab === "register"
           ? {
@@ -43,10 +43,7 @@ const Home = () => {
               email: form.email,
               password: form.password,
             };
-      const res = await API.post(
-        tab === "login" ? "/login" : "/register",
-        payload
-      ); 
+      const res = await API.post(endpoint, payload);
 
       if (tab === "login") {
         login(res.data.token);
