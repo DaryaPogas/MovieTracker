@@ -37,6 +37,16 @@ const auth = require("./middleware/auth");
 app.use("/api/v1/auth", require("./routes/auth"));
 app.use("/api/v1/movies", auth, require("./routes/movies"));
 
+
+//swagger
+const swaggerUI = require("swagger-ui-express");
+const swaggerSpec = require("./swagger");
+
+if (process.env.NODE_ENV !== "production") {
+  app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
+}
+
+
 //Error handling
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
