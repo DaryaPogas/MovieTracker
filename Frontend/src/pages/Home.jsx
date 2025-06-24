@@ -46,7 +46,7 @@ const Home = () => {
       const res = await API.post(endpoint, payload);
 
       if (tab === "login") {
-        login(res.data.token);
+        login(res.data);
         navigate("/movies");
       } else {
         setTab("login");
