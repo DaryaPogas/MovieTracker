@@ -27,6 +27,7 @@ const allowedOrigins =
     ? [
         "https://movie-tracker-blond.vercel.app",
         "https://movietracker-ryhw.onrender.com",
+        "https://movie-tracker-git-swagger-daryas-projects-fc1ee936.vercel.app",
       ]
     : ["http://localhost:5173", "http://localhost:3000"];
 
