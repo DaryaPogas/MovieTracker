@@ -42,9 +42,9 @@ app.use("/api/v1/movies", auth, require("./routes/movies"));
 const swaggerUI = require("swagger-ui-express");
 const swaggerSpec = require("./swagger");
 
-if (process.env.NODE_ENV !== "production") {
-  app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
-}
+
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
+
 
 
 //Error handling
