@@ -1,0 +1,186 @@
+paths:
+  /movies:
+    get:
+      summary: Get all movies (with optional filters)
+      tags: [Movies]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: search
+          schema:
+            type: string
+          description: Search by title or director
+        - in: query
+          name: genre
+          schema:
+            type: string
+          description: Filter by genre
+        - in: query
+          name: ageRating
+          schema:
+            type: string
+          description: Filter by age rating
+        - in: query
+          name: rating
+          schema:
+            type: string
+          description: Filter by user rating
+        - in: query
+          name: status
+          schema:
+            type: string
+          description: Filter by status (watched, planned, abandoned)
+        - in: query
+          name: sort
+          schema:
+            type: string
+          description: Sort by rating/year
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: limit
+          schema:
+            type: integer
+      responses:
+        200:
+          description: List of movies
+          content:
+            application/json:
+              example:
+                movies:
+                  - title: "The Matrix"
+                    director: "Lana Wachowski"
+                    year: 1999
+                    genres: ["Action", "Sci-Fi"]
+                    ageRating: "R"
+                    rating: "Great"
+                    review: "Classic sci-fi action movie"
+                    status: "watched"
+                count: 1
+
+    post:
+      summary: Create a new movie
+      tags: [Movies]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title, genres, ageRating]
+              properties:
+                title:
+                  type: string
+                director:
+                  type: string
+                year:
+                  type: integer
+                genres:
+                  type: array
+                  items:
+                    type: string
+                ageRating:
+                  type: string
+                rating:
+                  type: string
+                review:
+                  type: string
+                status:
+                  type: string
+                posterUrl:
+                  type: string
+            example:
+              title: "Interstellar"
+              director: "Christopher Nolan"
+              year: 2014
+              genres: ["Sci-Fi"]
+              ageRating: "PG-13"
+              rating: "Perfect"
+              review: "A visually stunning masterpiece"
+              status: "watched"
+              posterUrl: "https://example.com/poster.jpg"
+      responses:
+        201:
+          description: Movie created successfully
+
+  /movies/{id}:
+    get:
+      summary: Get a movie by ID
+      tags: [Movies]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Movie data
+          content:
+            application/json:
+              example:
+                title: "The Matrix"
+                director: "Lana Wachowski"
+                year: 1999
+        404:
+          description: Movie not found
+
+    patch:
+      summary: Update a movie
+      tags: [Movies]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                rating:
+                  type: string
+                status:
+                  type: string
+            example:
+              title: "Updated Title"
+              rating: "Great"
+              status: "watched"
+      responses:
+        200:
+          description: Movie updated
+        404:
+          description: Movie not found
+
+    delete:
+      summary: Delete a movie
+      tags: [Movies]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Movie deleted
+        404:
+          description: Movie not found
+
+  

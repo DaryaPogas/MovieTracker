@@ -28,4 +28,13 @@ Filtering, pagination, search, and custom error handling
 ![Screenshot 2025-06-23 at 7 55 38 PM](https://github.com/user-attachments/assets/8b2dca71-f904-4fa9-8f5d-c522a4e8a436)
 ![Screenshot 2025-06-23 at 7 56 09 PM](https://github.com/user-attachments/assets/532ab2b9-fbb2-4dff-b142-e5cba8142f61)
 
- 
+ 📖 API Documentation (Swagger)
+This project includes full API documentation using Swagger (OpenAPI 3.0). All endpoints are documented and split into separate YAML files for clarity.
+
+🔹 How to Access
+Local: http://localhost:3000/api-docs
+
+After running your backend locally:
+Visit http://localhost:3000/api-docs
+Explore and test endpoints (e.g. register, login, create/delete/update/get a movie)
+Authorize with a Bearer token to test protected routes
