@@ -2,6 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../hooks/useAuth";
+import "./Home.css";
+import Footer from "../shared/Layouts/Footer"
+import homePage from '../assets/home_page.jpg'
 
 const Home = () => {
   const { login } = useAuth();
@@ -53,75 +56,84 @@ const Home = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-20 p-6 border rounded shadow">
-      <div className="flex justify-center mb-6">
-        <button
-          className={`px-4 py-2 ${
-            tab === "login" ? "bg-blue-600 text-white" : "bg-gray-200"
-          }`}
-          onClick={() => setTab("login")}
-        >
-          Login
-        </button>
-        <button
-          className={`px-4 py-2 ${
-            tab === "register" ? "bg-blue-600 text-white" : "bg-gray-200"
-          }`}
-          onClick={() => setTab("register")}
-        >
-          Register
-        </button>
+    <div className="page-wrapper">
+      <div className="home-page">
+        <div className="left-column">
+          <img src={homePage} alt="Movies" className="home-image" />
+        </div>
+        <div className="right-column">
+          <div className="form-wrapper">
+            <div className="tab-buttons">
+              <button
+                className={`tab-button ${tab === "login" ? "active-tab" : ""}`}
+                onClick={() => setTab("login")}
+              >
+                Login
+              </button>
+              <button
+                className={`tab-button ${
+                  tab === "register" ? "active-tab" : ""
+                }`}
+                onClick={() => setTab("register")}
+              >
+                Register
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmit} className="auth-form">
+              {tab === "register" && (
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your name"
+                  value={form.name}
+                  onChange={handleChange}
+                  className="auth-input"
+                  required
+                />
+              )}
+
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="Email"
+                className="auth-input"
+                required
+              />
+              <input
+                type="password"
+                name="password"
+                value={form.password}
+                onChange={handleChange}
+                placeholder="Password"
+                className="auth-input"
+                required
+              />
+              {tab === "register" && (
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  value={form.confirmPassword}
+                  onChange={handleChange}
+                  placeholder="Confirm Password"
+                  className="auth-input"
+                  required
+                />
+              )}
+              {error && <p className="auth-error">{error}</p>}
+              <button type="submit" className="submit-button">
+                {tab === "login" ? "Login" : "Register"}
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
-
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input
-          type="text"
-          name="name"
-          placeholder="Your name"
-          value={form.name}
-          onChange={handleChange}
-          className="border p-2 rounded w-full"
-        />
-
-        <input
-          type="email"
-          name="email"
-          value={form.email}
-          onChange={handleChange}
-          placeholder="Email"
-          className="border px-3 py-2 rounded"
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          value={form.password}
-          onChange={handleChange}
-          placeholder="Password"
-          className="border px-3 py-2 rounded"
-          required
-        />
-        {tab === "register" && (
-          <input
-            type="password"
-            name="confirmPassword"
-            value={form.confirmPassword}
-            onChange={handleChange}
-            placeholder="Confirm Password"
-            className="border px-3 py-2 rounded"
-            required
-          />
-        )}
-        {error && <p className="text-red-500 text-sm">{error}</p>}
-        <button
-          type="submit"
-          className="bg-green-600 text-white py-2 rounded hover:bg-green-700"
-        >
-          {tab === "login" ? "Login" : "Register"}
-        </button>
-      </form>
+      <Footer />
     </div>
   );
+
 };
 
 export default Home;
