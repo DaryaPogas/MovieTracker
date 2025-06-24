@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import useAuth from "../hooks/useAuth";
+import API from "../api";
+import { useAuth } from "../context/AuthContext";
 import "./Home.css";
 import Footer from "../shared/Layouts/Footer"
 import homePage from '../assets/home_page.jpg'
@@ -31,7 +31,7 @@ const Home = () => {
     }
     try {
       const endpoint =
-        tab === "login" ? "/api/v1/auth/login" : "/api/v1/auth/register";
+        tab === "login" ? "/auth/login" : "/auth/register";
       const payload =
         tab === "register"
           ? {
@@ -43,9 +43,10 @@ const Home = () => {
               email: form.email,
               password: form.password,
             };
-      const res = await axios.post(endpoint, payload);
+      const res = await API.post(endpoint, payload);
+
       if (tab === "login") {
-        login(res.data.token);
+        login(res.data);
         navigate("/movies");
       } else {
         setTab("login");

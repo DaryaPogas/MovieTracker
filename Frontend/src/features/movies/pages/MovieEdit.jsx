@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import API from "../../../api/index";
 import MovieForm from "../components/MovieForm";
-import useAuth from "../../../hooks/useAuth";
+import { useAuth } from "../../../context/AuthContext";
 import "./MovieEdit.css";
 
 const MovieEdit = () => {
@@ -15,9 +15,7 @@ const MovieEdit = () => {
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const res = await axios.get(`/api/v1/movies/${id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await API.get(`/movies/${id}`);
         setMovie(res.data.movie);
       } catch (err) {
         setError("Failed to load movie");
@@ -28,9 +26,7 @@ const MovieEdit = () => {
 
   const handleUpdate = async (data) => {
     try {
-      await axios.patch(`/api/v1/movies/${id}`, data, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await API.patch(`/movies/${id}`, data);
       navigate("/movies");
     } catch (err) {
       alert("Failed to update movie");
