@@ -99,7 +99,7 @@ const MovieForm = ({ initialData = {}, onSubmit, isEditing = false }) => {
           "Okay",
           "Bad",
           "Spilled Popcorn",
-          "NOT_WATCHED_YET", // опционально, если нужен
+          "NOT_WATCHED_YET", 
         ].map((r) => (
           <option key={r} value={r}>
             {r}

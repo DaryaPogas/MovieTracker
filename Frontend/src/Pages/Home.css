@@ -1,0 +1,163 @@
+
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+
+.home-page {
+  display: flex;
+    flex: 1;
+  
+  min-height: 0; 
+}
+
+
+.left-column {
+  flex: 1;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+.home-image {
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+
+.right-column {
+  flex: 1;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+
+.form-wrapper {
+  background-color: black;
+  padding: 30px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+}
+
+
+.tab-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.tab-button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #e0e0e0;
+  color: #333;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.active-tab {
+  background-color: #4d5ae5;
+  color: white;
+}
+
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.auth-input {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  width: 100%;
+}
+
+.submit-button {
+  background-color: #e65cae;
+  color: white;
+  padding: 12px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #9d1868;
+}
+
+.auth-error {
+  color: red;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+
+.footer {
+  text-align: center;
+  padding: 20px;
+  background-color: black;
+  color: #ffffff;
+  font-size: 14px;
+}
+@media (max-width: 768px) {
+  .home-page {
+    flex-direction: column;
+  }
+
+  .left-column,
+  .right-column {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .left-column {
+    padding-bottom: 0;
+  }
+
+  .home-image {
+    max-width: 100%;
+    max-height: 300px;      
+    object-fit: cover;
+    border-radius: 12px;
+  }
+
+  .right-column {
+    justify-content: flex-start;  
+  }
+
+  .form-wrapper {
+    max-width: 70%;          
+    margin: 0 auto;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .tab-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .tab-button {
+    width: 100%;
+    text-align: center;
+  }
+}
