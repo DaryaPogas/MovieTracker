@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./shared/ProtectedRoute";
-import useAuth from "../hooks/useAuth";
+import {useAuth} from "../context/AuthContext"
 
 import Home from "./pages/Home";
 import Movies from "../features/movies/pages/Movies";
