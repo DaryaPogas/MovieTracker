@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./MovieFilters.css";
 const MovieFilters = ({
   metadata,
@@ -7,13 +6,15 @@ const MovieFilters = ({
   currentPage,
   totalPages,
   onPageChange,
-  onSearchClick,
 }) => {
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
     <>
       <div className="filters-search">
+        <label htmlFor="search-input" className="hidden">
+          Search by title or director
+        </label>
         <input
           type="text"
           placeholder="Search by title or director"
@@ -29,7 +30,7 @@ const MovieFilters = ({
         >
           <option value="">All Status</option>
           {metadata?.statusOptions?.map((status) => (
-            <option key={status} value={status}>
+            <option key={`status-${status}`} value={status}>
               {status}
             </option>
           ))}
@@ -41,7 +42,7 @@ const MovieFilters = ({
         >
           <option value="">All Ratings</option>
           {metadata?.ratingOptions?.map((rating) => (
-            <option key={rating} value={rating}>
+            <option key={`rating-${rating}`} value={rating}>
               {rating}
             </option>
           ))}
@@ -53,7 +54,7 @@ const MovieFilters = ({
         >
           <option value="">All Genres</option>
           {metadata?.genres?.map((genre) => (
-            <option key={genre} value={genre}>
+            <option key={`genre-${genre}`} value={genre}>
               {genre}
             </option>
           ))}
@@ -65,7 +66,7 @@ const MovieFilters = ({
         >
           <option value="">All Age Ratings</option>
           {metadata?.ageRatings?.map((age) => (
-            <option key={age} value={age}>
+            <option key={`age-${age}`} value={age}>
               {age}
             </option>
           ))}
@@ -92,7 +93,7 @@ const MovieFilters = ({
 
           {pageNumbers.map((num) => (
             <button
-              key={num}
+              key={`page-${num}`}
               onClick={() => onPageChange(num)}
               className={currentPage === num ? "active-page" : ""}
             >

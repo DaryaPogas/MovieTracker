@@ -1,17 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import MovieForm from "../components/MovieForm";
-import { useAuth } from "../../../context/AuthContext"
-import API from '../../../api/index'
-import "./MovieAdd.css"; 
+import API from "../api/index";
+import "./MovieAdd.css";
 const MovieAdd = () => {
-  const { token } = useAuth();
   const navigate = useNavigate();
 
   const handleCreate = async (data) => {
     try {
-      await API.post("/movies", data)
+      await API.post("/movies", data);
       navigate("/movies");
-    } catch (err) {
+    } catch {
       alert("Failed to create movie");
     }
   };

@@ -9,19 +9,6 @@ const cors = require("cors");
 
 const app = express();
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-//security
-app.use(helmet());
-app.use(xss());
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-});
-app.use(limiter);
-
-
 const allowedOrigins =
   process.env.NODE_ENV === "production"
     ? [
@@ -37,8 +24,20 @@ app.use(
     credentials: true,
   })
 );
-
 app.options("*", cors());
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+//security
+app.use(helmet());
+app.use(xss());
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+});
+app.use(limiter);
+
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
   next();
@@ -49,15 +48,11 @@ const auth = require("./middleware/auth");
 app.use("/api/v1/auth", require("./routes/auth"));
 app.use("/api/v1/movies", auth, require("./routes/movies"));
 
-
 //swagger
 const swaggerUI = require("swagger-ui-express");
 const swaggerSpec = require("./swagger");
 
-
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
-
-
 
 //Error handling
 const notFoundMiddleware = require("./middleware/not-found");
@@ -79,16 +74,3 @@ const start = async () => {
 };
 
 start();
-
-/* require("dotenv").config();
-const express = require("express");
-const app = express();
-
-app.get("/", (req, res) => {
-  res.send("MovieTracker is working!");
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-}); */

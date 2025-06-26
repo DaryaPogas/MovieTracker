@@ -1,10 +1,10 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound"
-import Movies from "./features/movies/pages/Movies";
-import MovieDetail from "./features/movies/pages/MovieDetail";
-import MovieAdd from "./features/movies/pages/MovieAdd";
-import MovieEdit from "./features/movies/pages/MovieEdit";
+import Movies from "./pages/Movies";
+import MovieDetail from "./pages/MovieDetail";
+import MovieAdd from "./pages/MovieAdd";
+import MovieEdit from "./pages/MovieEdit";
 import ProtectedRoute from "./shared/ProtectedRoute";
 import MainLayout from "./shared/Layouts/MainLayout";
 
