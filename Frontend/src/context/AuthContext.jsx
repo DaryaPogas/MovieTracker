@@ -39,7 +39,6 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("token");
     localStorage.removeItem("userEmail");
     setUser(null);
-    console.log("User logged out.");
   };
   if (loading) return null;
   return (

@@ -3,10 +3,7 @@ import API from "./index";
 export const register = (userData) => API.post("/register", userData);
 
 export const login = async (credentials) => {
-  try {
     const response = await API.post("/login", credentials);
-
-   
     if (response.data.token) {
       localStorage.setItem("token", response.data.token); 
       console.log("Token is saved:", response.data.token); 
@@ -14,8 +11,4 @@ export const login = async (credentials) => {
     } else {
       throw new Error("Did not recieve token");
     }
-  } catch (error) {
-    console.error("Error:", error.response?.data || error.message);
-    throw error;
-  }
 };

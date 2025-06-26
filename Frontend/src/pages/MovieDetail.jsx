@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import API from "../../../api/index"
-import { useAuth } from "../../../context/AuthContext";
+import API from "../api/index"
+import { useAuth } from "../context/AuthContext";
 import "./MovieDetail.css";
-import defaultPoster from "../../../assets/movie_default.jpg";
+import defaultPoster from "../assets/movie_default.jpg";
 
 const MovieDetail = () => {
   const { id } = useParams();
@@ -17,7 +17,7 @@ const MovieDetail = () => {
       try {
         const res = await API.get(`/movies/${id}`);
         setMovie(res.data.movie);
-      } catch (err) {
+      } catch  {
         setError("Failed to load movie");
       }
     };
@@ -32,7 +32,7 @@ const MovieDetail = () => {
     try {
       await API.delete(`/movies/${id}`);
       navigate("/movies");
-    } catch (err) {
+    } catch  {
       alert("Failed to delete movie");
     }
   };

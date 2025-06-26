@@ -1,13 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import API from "../../../api/index";
-import { useAuth } from "../../../context/AuthContext";
+import API from "../api/index";
 import MovieFilters from "../components/MovieFilters";
 import "./Movies.css";
-import defaultPoster from "../../../assets/movie_default.jpg";
+import defaultPoster from "../assets/movie_default.jpg";
 
 const Movies = () => {
-  const { token } = useAuth();
   const navigate = useNavigate();
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState("");
@@ -31,13 +29,13 @@ const Movies = () => {
         page: currentPage,
         limit: moviesPerPage,
       };
-      const res = await API.get("/movies", {params});
+      const res = await API.get("/movies", { params });
       setMovies(res.data.movies);
       setTotalMovies(res.data.count);
-    } catch (err) {
+    } catch {
       setError("Failed to load movies");
     }
-  }, [token, filters, currentPage]);
+  }, [filters, currentPage]);
 
   useEffect(() => {
     fetchMovies();
@@ -46,27 +44,14 @@ const Movies = () => {
   useEffect(() => {
     const fetchMetadata = async () => {
       try {
-        const res = await API.get("/movies/metadata")
+        const res = await API.get("/movies/metadata");
         setMetadata(res.data.data);
-      } catch (err) {
+      } catch {
         console.error("Failed to load metadata");
       }
     };
     fetchMetadata();
-  }, [token]);
-
-  const handleDelete = async (id) => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this movie?"
-    );
-    if (!confirmed) return;
-    try {
-      await API.delete(`/movies/${id}`);
-      fetchMovies();
-    } catch (err) {
-      alert("Failed to delete movie");
-    }
-  };
+  }, []);
 
   const handleFilterChange = useCallback((key, value) => {
     setFilters((prev) => ({ ...prev, [key]: value }));

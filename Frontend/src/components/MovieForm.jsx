@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import "./MovieForm.css";
 
 const MovieForm = ({ initialData = {}, onSubmit, isEditing = false }) => {
@@ -14,12 +14,6 @@ const MovieForm = ({ initialData = {}, onSubmit, isEditing = false }) => {
     ...initialData,
   });
 
-  useEffect(() => {
-    if (initialData) {
-      setForm((prev) => ({ ...prev, ...initialData }));
-    }
-  }, [JSON.stringify(initialData)]); 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
@@ -33,19 +27,18 @@ const MovieForm = ({ initialData = {}, onSubmit, isEditing = false }) => {
     setForm({ ...form, genres: selected });
   };
 
- const handleSubmit = (e) => {
-   e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-   const dataToSend = { ...form };
-   if (form.status !== "watched") {
-     delete dataToSend.review; 
-   }
-   if (!form.posterUrl?.trim()) {
-     form.posterUrl = "/default-poster.jpg";
-   }
-   onSubmit(dataToSend);
- };
-
+    const dataToSend = { ...form };
+    if (form.status !== "watched") {
+      delete dataToSend.review;
+    }
+    if (!form.posterUrl?.trim()) {
+      form.posterUrl = "/default-poster.jpg";
+    }
+    onSubmit(dataToSend);
+  };
 
   return (
     <form onSubmit={handleSubmit} className="movie-form">
@@ -99,7 +92,7 @@ const MovieForm = ({ initialData = {}, onSubmit, isEditing = false }) => {
           "Okay",
           "Bad",
           "Spilled Popcorn",
-          "NOT_WATCHED_YET", 
+          "NOT_WATCHED_YET",
         ].map((r) => (
           <option key={r} value={r}>
             {r}

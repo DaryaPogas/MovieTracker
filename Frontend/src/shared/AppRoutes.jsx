@@ -1,12 +1,12 @@
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./shared/ProtectedRoute";
-import {useAuth} from "../context/AuthContext"
+import { useAuth } from "../context/AuthContext";
 
 import Home from "./pages/Home";
-import Movies from "../features/movies/pages/Movies";
-import MovieDetail from "../features/movies/pages/MovieDetail";
-import MovieAdd from "../features/movies/pages/MovieAdd"
-import MovieEdit from "../features/movies/pages/MovieEdit";
+import Movies from "./pages/Movies";
+import MovieDetail from "./pages/MovieDetail";
+import MovieAdd from "./pages/MovieAdd";
+import MovieEdit from "./pages/MovieEdit";
 
 const AppRoutes = () => {
   const { user } = useAuth();

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import API from "../../../api/index";
+import API from "../api/index";
 import MovieForm from "../components/MovieForm";
-import { useAuth } from "../../../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import "./MovieEdit.css";
 
 const MovieEdit = () => {
@@ -17,7 +17,7 @@ const MovieEdit = () => {
       try {
         const res = await API.get(`/movies/${id}`);
         setMovie(res.data.movie);
-      } catch (err) {
+      } catch  {
         setError("Failed to load movie");
       }
     };
@@ -28,7 +28,7 @@ const MovieEdit = () => {
     try {
       await API.patch(`/movies/${id}`, data);
       navigate("/movies");
-    } catch (err) {
+    } catch  {
       alert("Failed to update movie");
     }
   };
