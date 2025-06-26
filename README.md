@@ -56,4 +56,42 @@ MONGO_URI=your_mongodb_connection
 JWT_SECRET=your_jwt_secret    
 
 4.Run both servers
+
+
+🛠MongoDB Setup Instructions (for Reviewers or First-Time Users)
+To run this project locally, you need a working MongoDB connection. If you haven’t used MongoDB Atlas before, follow these steps:
+
+1. Create a Free Cluster on MongoDB Atlas
+Go to MongoDB Atlas and sign up or log in. https://account.mongodb.com/account/login
+Create a free shared cluster.
+
+2. Create a Database User
+In the left sidebar, go to Database Access → click Add New Database User.
+Choose Username & Password.
+Assign Read and Write privileges to any database.
+Save the credentials (you will use them in the connection string).
+
+3. Allow Network Access
+Go to Network Access → click Add IP Address.
+Choose Allow from anywhere (0.0.0.0/0) for development purposes.
+
+4. Create a Database (Optional)
+In Clusters, click Browse Collections → Create Database.
+Name the database (e.g., movietracker) and add an initial collection (e.g., movies).
+
+5. Get the Connection String
+In your cluster, click Connect → Connect your application.
+Copy the connection string:
+
+mongodb+srv://<username>:<password>@cluster0.xxxxxx.mongodb.net/<db-name>?retryWrites=true&w=majority
+Replace:
+<username> and <password> with your database credentials
+<db-name> with the name of your database (e.g., movietracker)
+
+6. Create a .env File in the Backend
+
+MONGO_URI=mongodb+srv://<your_user>:<your_pass>@cluster0.xxxxxx.mongodb.net/<your_db>?retryWrites=true&w=majority
+JWT_SECRET=<your_secure_jwt_secret>
+JWT_LIFETIME=30d
+You can generate a secure JWT secret using uuidgenerator.net.
                                           
