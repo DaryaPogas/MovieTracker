@@ -43,6 +43,22 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  if (req.path === "/multiply") {
+    res.set("Content-Type", "application/json");
+  } else {
+    res.set("Content-Type", "text/html");
+  }
+  next();
+});
+
+app.use((req, res, next) => {
+  if (req.path.startsWith("/api/")) {
+    res.set("Content-Type", "application/json");
+  }
+  next();
+});
+
 // routes
 const auth = require("./middleware/auth");
 app.use("/api/v1/auth", require("./routes/auth"));
@@ -54,6 +70,22 @@ const swaggerSpec = require("./swagger");
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
+app.get("/multiply", (req, res) => {
+  const result = req.query.first * req.query.second;
+  if (isNaN(result)) {
+    res.json({ result: "NaN" });
+  } else if (result == null) {
+    res.json({ result: "null" });
+  } else {
+    res.json({ result: result });
+  }
+});
+
+app.get("/", (req, res) => {
+  res.send("<html><body><h1>Welcome</h1><p>Click this link</p></body></html>");
+});
+
+
 //Error handling
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
@@ -61,11 +93,35 @@ app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
 //start
+// const port = process.env.PORT || 3000;
+// const start = async () => {
+//   try {
+//     const mongoURL =
+//       process.env.NODE_ENV === "test"
+//         ? process.env.MONGO_URI_TEST
+//         : process.env.MONGO_URI;
+
+//     await require("./db/connect")(mongoURL);
+
+//     app.listen(port, () =>
+//       console.log(`Server is listening on port ${port}...`)
+//     );
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+// start();
 const port = process.env.PORT || 3000;
-const start = async () => {
+const mongoURL =
+  process.env.NODE_ENV === "test"
+    ? process.env.MONGO_URI_TEST
+    : process.env.MONGO_URI;
+
+const start = () => {
   try {
-    await require("./db/connect")(process.env.MONGO_URI);
-    app.listen(port, () =>
+    require("./db/connect")(mongoURL);
+    return app.listen(port, () =>
       console.log(`Server is listening on port ${port}...`)
     );
   } catch (error) {
@@ -74,3 +130,5 @@ const start = async () => {
 };
 
 start();
+
+module.exports = { app };
